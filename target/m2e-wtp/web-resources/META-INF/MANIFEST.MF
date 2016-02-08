@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: spring-boot-JPA-composite-PK-IdClass
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: parkbyunghoon
+Implementation-Vendor-Id: com.t3q
+Build-Jdk: 1.8.0_60
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
