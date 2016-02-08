@@ -19,7 +19,7 @@ public class UserGroup implements Serializable {
 
 	@Id
 	@Column(name="GROUP_ID")
-	private String groupId;
+	private Long groupId;
 
 	@Column(name="GROUP_NAME")
 	private String groupName;
@@ -32,11 +32,15 @@ public class UserGroup implements Serializable {
 	public UserGroup() {
 	}
 
-	public String getGroupId() {
+	public UserGroup(Long groupId) {
+		this.groupId = groupId;
+	}
+
+	public Long getGroupId() {
 		return this.groupId;
 	}
 
-	public void setGroupId(String groupId) {
+	public void setGroupId(Long groupId) {
 		this.groupId = groupId;
 	}
 

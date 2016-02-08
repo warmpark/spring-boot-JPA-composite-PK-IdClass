@@ -35,10 +35,10 @@ public class UserController {
 	 */
 	@RequestMapping("/create")
 	@ResponseBody
-	public String create(String email,Long groupId, String name, Integer age,  String useYN, String regUser) {
+	public String create(String email,Long groupId, String name, Integer age,  String useYn, String regUser) {
 		User user = null;
 		try {
-			user = new User(email, groupId, name, age,  useYN, regUser);
+			user = new User(email, groupId, name, age,  useYn, regUser);
 			userDao.save(user);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -102,12 +102,13 @@ public class UserController {
 	 */
 	@RequestMapping("/update")
 	@ResponseBody
-	public String updateUser(String email,String name, Integer age,  String useYN, String regUser) {
+	public String updateUser(String email,Long groupId, String name, Integer age,  String useYn, String regUser) {
 		try {
 			User user = userDao.getOne(email);
+			if(groupId!=null) user.getUserGroup().setGroupId(groupId);
 			if(name!=null)user.setName(name);
 			if(age!=null & age.intValue()!=0 )user.setAge(age);
-			if(useYN!=null) user.setUseYn(useYN);
+			if(useYn!=null) user.setUseYn(useYn);
 			if(regUser!=null) user.setRegUser(regUser);
 			userDao.save(user);
 		} catch (Exception ex) {

@@ -2,6 +2,7 @@ package com.t3q.jpa.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -25,9 +26,6 @@ public class User implements Serializable {
 	@Id
 	@Column(name = "EMAIL", unique = true, nullable = false)
 	String email;
-
-	@Column(name = "GROUP_ID", nullable = false)
-	Long groupId;
 	
 	@Column(name = "NAME", nullable = false)
 	String name;
@@ -41,18 +39,25 @@ public class User implements Serializable {
 	@Column(name = "REG_USER", nullable = true)
 	String regUser;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	//bi-directional many-to-one association to Address
+	@OneToMany(mappedBy="user", cascade={CascadeType.ALL})
 	//@JsonManagedReference : for 1
 	//@JsonBackReference
 	@JsonIgnore
-	Set<Address> addresses = new HashSet<Address>(0);
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "GROUP_ID", insertable=false, updatable=false)
+	//Set<Address> addresses = new HashSet<Address>(0);
+	private List<Address> addresses;
+
+
+	//bi-directional many-to-one association to UserGroup
+	@ManyToOne
+	@JoinColumn(name="GROUP_ID", nullable=false)
 	//@JsonManagedReference
 	//@JsonBackReference : for many
 	//@JsonIgnore
 	private UserGroup userGroup;
+	
+	
+	
 
 	public User() {
 
@@ -64,21 +69,15 @@ public class User implements Serializable {
 
 	public User(String email,Long groupId, String name,  Integer age, String useYn, String regUser) {
 		this.email = email;
-		this.groupId = groupId;
+		this.userGroup = new UserGroup(groupId);
+		//this.groupId = groupId;
 		this.name = name;
 		this.age = age;
 		this.useYn = useYn;
 		this.regUser = regUser;
 	}
 
-	public User(String email,String name, Integer age,  String useYn, String regUser, Set<Address> addresses) {
-		this.name = name;
-		this.age = age;
-		this.email = email;
-		this.useYn = useYn;
-		this.regUser = regUser;
-		this.addresses = addresses;
-	}
+
 	
 	public String getEmail() {
 		return email;
@@ -89,13 +88,6 @@ public class User implements Serializable {
 	}
 	
 
-	public Long getGroupId() {
-		return groupId;
-	}
-
-	public void setGroupId(Long groupId) {
-		this.groupId = groupId;
-	}
 
 	public String getName() {
 		return name;
@@ -132,14 +124,27 @@ public class User implements Serializable {
 	}
 
 
-	public Set<Address> getAddresses() {
-		return addresses;
+	public List<Address> getAddresses() {
+		return this.addresses;
 	}
 
-	public void setAddresses(Set<Address> addresses) {
+	public void setAddresses(List<Address> addresses) {
 		this.addresses = addresses;
 	}
-	
+
+	public Address addAddress(Address address) {
+		getAddresses().add(address);
+		address.setUser(this);
+
+		return address;
+	}
+
+	public Address removeAddress(Address address) {
+		getAddresses().remove(address);
+		address.setUser(null);
+
+		return address;
+	}
 	
 	
 
