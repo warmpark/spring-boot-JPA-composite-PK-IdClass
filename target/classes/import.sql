@@ -1,9 +1,9 @@
 
-drop table address;
+drop table address ;
 
 drop table user;
 
-drop table user_group
+drop table user_group;
 
 
 CREATE TABLE user_group (
@@ -21,8 +21,8 @@ CREATE TABLE user (
   AGE int(3) NOT NULL,
   USE_YN char(1) DEFAULT NULL,
   REG_USER varchar(10) DEFAULT NULL,
-  PRIMARY KEY (EMAIL)
-  CONSTRAINT FK_USER_GROUP_ID_FOR_USER_GROUP_GROUP_ID FOREIGN KEY (GROUP_ID) REFERENCES user (GROUP_ID)
+  PRIMARY KEY (EMAIL),
+  CONSTRAINT FK_USER_GROUP_ID_FOR_USER_GROUP_GROUP_ID FOREIGN KEY (GROUP_ID) REFERENCES user_group (GROUP_ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -35,14 +35,17 @@ CREATE TABLE address (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-INSERT INTO USER_GROUP (GROUP_ID, GROUP_NAME)
+INSERT INTO user_group (GROUP_ID, GROUP_NAME)
 VALUES (1, 'T3Q GROUP');
 
+INSERT INTO user_group (GROUP_ID, GROUP_NAME)
+VALUES (2, 'YNA GROUP');
 
-INSERT INTO user(EMAIL,NAME, GROUP_ID,  AGE,  USE_YN, REG_USER)
+
+INSERT INTO user(EMAIL,GROUP_ID, NAME,   AGE,  USE_YN, REG_USER)
 VALUES ('warmpark@t3q.com', 1,'박병훈',44,'Y', 'warmpark');
 
-INSERT INTO user(EMAIL,NAME, GROUP_ID,  AGE,  USE_YN, REG_USER)
+INSERT INTO user(EMAIL,GROUP_ID, NAME,   AGE,  USE_YN, REG_USER)
 VALUES ('minsugar@gmail.com',1, '정민숙',40,'Y', 'minsugar');
 
 
